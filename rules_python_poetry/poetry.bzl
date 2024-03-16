@@ -8,6 +8,9 @@ def _poetry_impl(ctx):
    for group in ctx.attr.groups:
       cmd.append("--with="+group)
 
+   if ctx.attr.with_credentials != None:
+      cmd.append("--with-credentials")
+
    result = ctx.execute(
       cmd,
       working_directory = str(ctx.path(ctx.attr.lockfile).dirname),
@@ -36,6 +39,9 @@ poetry_lock = repository_rule(
             mandatory = False,
             executable = True,
             cfg = "exec"
+        ),
+        "with_credentials": attr.bool(
+            default = False,
         ),
    }
 )
